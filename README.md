@@ -28,6 +28,7 @@ PyTorch implementation of [CodeSLAM - Learning a Compact, Optimisable Representa
 	- The implementation of the first real-time targeted monocular system that achieves such a tight joint optimisation of motion and dense geometry.
 
 ## Usage
+- generate the python module for the protobuf: `protoc --python_out=./ scenenet.proto`
 
 ## Results
 
