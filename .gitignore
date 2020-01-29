@@ -1,6 +1,8 @@
 # datasets
 data/*
 
+# vscode changes
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

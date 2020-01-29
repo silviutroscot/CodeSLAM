@@ -1,35 +1,35 @@
 import scenenet_pb2 as sn
 import os
 
-data_root_path = 'data/val'
-protobuf_path = 'data/scenenet_rgbd_val.pb'
+DATA_ROOT_PATH = 'data/'
+PROTOBUF_PATH = 'data/scenenet_rgbd_val.pb'
 
 # These functions produce a file path (on Linux systems) to the image given
-# a view and render path from a trajectory.  As long the data_root_path to the
+# a view and render path from a trajectory.  As long the DATA_ROOT_PATH to the
 # root of the dataset is given.  I.e. to either val or train
 def photo_path_from_view(render_path,view):
     photo_path = os.path.join(render_path,'photo')
     image_path = os.path.join(photo_path,'{0}.jpg'.format(view.frame_num))
-    return os.path.join(data_root_path,image_path)
+    return os.path.join(DATA_ROOT_PATH,image_path)
 
 def instance_path_from_view(render_path,view):
     photo_path = os.path.join(render_path,'instance')
     image_path = os.path.join(photo_path,'{0}.png'.format(view.frame_num))
-    return os.path.join(data_root_path,image_path)
+    return os.path.join(DATA_ROOT_PATH,image_path)
 
 def depth_path_from_view(render_path,view):
     photo_path = os.path.join(render_path,'depth')
     image_path = os.path.join(photo_path,'{0}.png'.format(view.frame_num))
-    return os.path.join(data_root_path,image_path)
+    return os.path.join(DATA_ROOT_PATH,image_path)
 
 
 if __name__ == '__main__':
     trajectories = sn.Trajectories()
     try:
-        with open(protobuf_path,'rb') as f:
+        with open(PROTOBUF_PATH,'rb') as f:
             trajectories.ParseFromString(f.read())
     except IOError:
-        print('Scenenet protobuf data not found at location:{0}'.format(data_root_path))
+        print('Scenenet protobuf data not found at location:{0}'.format(DATA_ROOT_PATH))
         print('Please ensure you have copied the pb file to the data directory')
 
     print('Number of trajectories:{0}'.format(len(trajectories.trajectories)))
