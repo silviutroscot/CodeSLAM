@@ -26,13 +26,12 @@ def resize_intensity_images(path, new_width, new_height):
         resized_intensity_image_name = image_name_without_extension + '_resized.jpg'
         resized_image.save(resized_intensity_image_name, "JPEG", optimize=True)
         # remove the original intensity image
-        #os.remove(filename)
+        os.remove(filename)
 
 def remove_unresized_intensity_images(path):
     for filename in glob.iglob(path + '**/0/photo/*_intensity.jpg', recursive=True):
         os.remove(filename)
 
 if __name__ == '__main__':
-    #create_intensity_images_from_rgb_images_folder(TRAINING_SET_PATH)
+    create_intensity_images_from_rgb_images_folder(TRAINING_SET_PATH)
     resize_intensity_images(TRAINING_SET_PATH, 256, 192)
-    #remove_resized_images(TRAINING_SET_PATH)
