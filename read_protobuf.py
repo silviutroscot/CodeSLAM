@@ -1,8 +1,8 @@
 import scenenet_pb2 as sn
 import os
 
-DATA_ROOT_PATH = 'data/'
-PROTOBUF_PATH = 'data/scenenet_rgbd_val.pb'
+DATA_ROOT_PATH = 'data/train_0/train/0'
+PROTOBUF_PATH = 'data/train_protobufs/scenenet_rgbd_train_0.pb'
 
 # These functions produce a file path (on Linux systems) to the image given
 # a view and render path from a trajectory.  As long the DATA_ROOT_PATH to the
