@@ -2,7 +2,8 @@ import glob
 import multiprocessing as mp
 import os
 from PIL import Image
-from read_protobuf import DATA_ROOT_PATH
+import sys
+
 
 TRAINING_SET_PATH = 'data/train/'
 DATASET_SUBFOLDERS = range(0, 15)
@@ -38,9 +39,25 @@ def remove_intensity_images(path):
         os.remove(filename)
 
 if __name__ == '__main__':
-    # preprocess each of the 17 subfolders of the training in parallel
     pool = mp.Pool(mp.cpu_count())
-    #[pool.apply(create_intensity_images_from_rgb_images_folder, args=(TRAINING_SET_PATH, subfolder)) for subfolder in DATASET_SUBFOLDERS]
-    [pool.apply(resize_intensity_images, args=(TRAINING_SET_PATH, IMAGE_NEW_WIDTH, IMAGE_NEW_HEIGHT, subfolder)) for subfolder in DATASET_SUBFOLDERS]
+    # if no args are passed, don't alter images
+    if len(sys.argv) is 0:
+        print("You should specify resizing (r) or converting to intensity (i).")
+    elif len(sys.argv) is 1:
+        if str(sys.argv[0]) is "i":
+            [pool.apply(create_intensity_images_from_rgb_images_folder, args=(TRAINING_SET_PATH, subfolder)) for subfolder in DATASET_SUBFOLDERS]
+        elif str(sys.argv[0]) is "r":
+            [pool.apply(resize_intensity_images, args=(TRAINING_SET_PATH, IMAGE_NEW_WIDTH, IMAGE_NEW_HEIGHT, subfolder)) for subfolder in DATASET_SUBFOLDERS]
+        else:
+            print("Invalid argument: use 'i' for convert images to intensity images, 'r' to resize the intensity images or 'i' and 'r' for both")
+    elif len(sys.argv) is 2:
+        if (str(sys.argv[0]) is "i" and str(sys.argv[1]) is "r") or (str(sys.argv[0]) is "i" and str(sys.argv[1]) is "r"):
+            [pool.apply(create_intensity_images_from_rgb_images_folder, args=(TRAINING_SET_PATH, subfolder)) for subfolder in DATASET_SUBFOLDERS]
+            [pool.apply(resize_intensity_images, args=(TRAINING_SET_PATH, IMAGE_NEW_WIDTH, IMAGE_NEW_HEIGHT, subfolder)) for subfolder in DATASET_SUBFOLDERS]
+        else:
+            print("Invalid arguments: use 'i' for convert images to intensity images, 'r' to resize the intensity images or 'i' and 'r' for both")
+    else:
+        print("Too many arguments: use 'i' for convert images to intensity images, 'r' to resize the intensity images or 'i' and 'r' for both")
+    
     pool.close()
     
