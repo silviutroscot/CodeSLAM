@@ -10,8 +10,7 @@ IMAGE_NEW_WIDTH = 256
 IMAGE_NEW_HEIGHT = 192
 
 def create_intensity_images_from_rgb_images_folder(path, subfolder):
-    print("create intensity is called")
-    for filename in glob.iglob(path + '**/' + subfolder + '/*/photo/*', recursive=True):
+    for filename in glob.iglob(path + '**/' + str(subfolder) + '/*/photo/*', recursive=True):
         # don't duplicate intensity images
         if not filename.endswith("_intensity.jpg"):
             img = Image.open(filename).convert('L')
@@ -21,7 +20,7 @@ def create_intensity_images_from_rgb_images_folder(path, subfolder):
             img.save(intensity_image_name)
 
 def resize_intensity_images(path, new_width, new_height, subfolder):
-    for filename in glob.iglob(path + '**/' + subfolder + '*/photo/*_intensity.jpg', recursive=True):
+    for filename in glob.iglob(path + '**/*/photo/*_intensity.jpg', recursive=True):
         print(filename)
         img = Image.open(filename)
         resized_image = img.resize((new_width, new_height))
@@ -40,7 +39,7 @@ def remove_intensity_images(path):
 if __name__ == '__main__':
     # preprocess each of the 17 subfolders of the training in parallel
     pool = mp.Pool(mp.cpu_count())
-    [pool.apply(create_intensity_images_from_rgb_images_folder, args=(TRAINING_SET_PATH, subfolder)) for subfolder in DATASET_SUBFOLDERS]
-    [pool.apply(resize_intensity_images, args=(TRAINING_SET_PATH, IMAGE_NEW_WIDTH, IMAGE_NEW_HEIGHT)) for subfolder in DATASET_SUBFOLDERS]
+    #[pool.apply(create_intensity_images_from_rgb_images_folder, args=(TRAINING_SET_PATH, subfolder)) for subfolder in DATASET_SUBFOLDERS]
+    [pool.apply(resize_intensity_images, args=(TRAINING_SET_PATH, IMAGE_NEW_WIDTH, IMAGE_NEW_HEIGHT, subfolder)) for subfolder in DATASET_SUBFOLDERS]
     pool.close()
     
