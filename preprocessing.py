@@ -4,13 +4,14 @@ import os
 from PIL import Image
 from read_protobuf import DATA_ROOT_PATH
 
-TRAINING_SET_PATH = 'data/train_0/train/0'
-DATASET_SUBFOLDERS = range(0, 18)
+TRAINING_SET_PATH = 'data/train/'
+DATASET_SUBFOLDERS = range(0, 15)
 IMAGE_NEW_WIDTH = 256
 IMAGE_NEW_HEIGHT = 192
 
 def create_intensity_images_from_rgb_images_folder(path, subfolder):
-    for filename in glob.iglob(path + '**/' + str(subfolder) + '/*/photo/*', recursive=True):
+    print("create intensity is called")
+    for filename in glob.iglob(path + str(subfolder) + '/*/photo/*', recursive=True):
         # don't duplicate intensity images
         if not filename.endswith("_intensity.jpg"):
             img = Image.open(filename).convert('L')
@@ -20,7 +21,7 @@ def create_intensity_images_from_rgb_images_folder(path, subfolder):
             img.save(intensity_image_name)
 
 def resize_intensity_images(path, new_width, new_height, subfolder):
-    for filename in glob.iglob(path + '**/*/photo/*_intensity.jpg', recursive=True):
+    for filename in glob.iglob(path + str(subfolder) + '/*/photo/*_intensity.jpg', recursive=True):
         print(filename)
         img = Image.open(filename)
         resized_image = img.resize((new_width, new_height))
