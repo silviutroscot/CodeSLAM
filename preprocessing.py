@@ -39,7 +39,7 @@ def scale_depth(image, average):
         image[i] = average / (average + image[i])
 
 def normalize_depth_values(path, subfolder):
-    for filename in glob.iglob(path + str(subfolder) + '/*/depth/*', recursive=True):
+    for filename in glob.iglob(path + str(subfolder) + '/*/depth/*[0-9].png', recursive=True):
         print(filename)
         img = Image.open(filename)
         size = img.size
@@ -47,7 +47,6 @@ def normalize_depth_values(path, subfolder):
         average_depth = statistics.mean(image_values)
         scale_depth(image_values, average_depth)
         image_array = np.array(image_values, dtype=np.float32)
-        
         image = Image.new("L", size)
         image.putdata(image_array)
         normalized_image_name = filename.split('.')[0] + '_normalized.png'
