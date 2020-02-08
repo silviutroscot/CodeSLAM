@@ -45,6 +45,8 @@ def normalize_depth_values(path, subfolder):
         size = img.size
         image_values = img.histogram()
         average_depth = statistics.mean(image_values)
+        if average_depth is 0:
+            average_depth = 0.000001
         scale_depth(image_values, average_depth)
         image_array = np.array(image_values, dtype=np.float32)
         image = Image.new("L", size)
