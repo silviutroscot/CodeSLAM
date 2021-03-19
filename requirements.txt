@@ -1,5 +1,5 @@
 numpy==1.18.1
-Pillow==7.0.0
+Pillow==8.1.1
 protobuf==3.11.2
 six==1.14.0
 torch==1.4.0+cpu
