@@ -1,5 +1,9 @@
-import scenenet_pb2 as sn
 import os
+
+try:
+    import scenenet_pb2 as sn
+except ImportError:  # pragma: no cover
+    sn = None
 
 DATA_ROOT_PATH = 'data/train_0/train/0'
 PROTOBUF_PATH = 'data/train_protobufs/scenenet_rgbd_train_0.pb'
@@ -24,6 +28,8 @@ def depth_path_from_view(render_path,view):
 
 
 if __name__ == '__main__':
+    if sn is None:
+        raise ImportError("scenenet_pb2 is not available. Run `make` to generate it from scenenet.proto first.")
     trajectories = sn.Trajectories()
     try:
         with open(PROTOBUF_PATH,'rb') as f:
